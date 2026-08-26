@@ -136,6 +136,7 @@ celerybeat.pid
 
 # Generated datasets
 data/*.csv
+data/plots/
 customers.csv
 transactions.csv
 life_events.csv
