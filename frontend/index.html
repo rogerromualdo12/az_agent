@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Digital Twin</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <p class="eyebrow">Banca</p>
+        <h1>Financial Digital Twin</h1>
+      </div>
+      <form id="search-form">
+        <input id="search" type="search" placeholder="Buscar por nombre o ID" />
+        <button type="submit">Buscar</button>
+      </form>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>Clientes</h2>
+        <div id="customer-list" class="list">Cargando...</div>
+      </section>
+
+      <section class="panel detail">
+        <h2>Digital twin</h2>
+        <div id="customer-detail">Selecciona un cliente</div>
+        <button id="insight-btn" hidden>Generar insight</button>
+        <pre id="insight"></pre>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

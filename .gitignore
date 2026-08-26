@@ -134,6 +134,12 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# Generated datasets
+data/*.csv
+customers.csv
+transactions.csv
+life_events.csv
+
 # Environments
 .env
 .envrc
@@ -205,3 +211,4 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+.env.example
