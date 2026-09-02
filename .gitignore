@@ -137,6 +137,13 @@ celerybeat.pid
 # Generated datasets
 data/*.csv
 data/plots/
+data/bronze/*
+!data/bronze/.gitkeep
+data/silver/*
+!data/silver/.gitkeep
+data/gold/*
+!data/gold/.gitkeep
+data/gold/plots/
 customers.csv
 transactions.csv
 life_events.csv

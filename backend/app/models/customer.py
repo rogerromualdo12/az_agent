@@ -11,6 +11,10 @@ class Customer(BaseModel):
     default_risk: float
     churn_risk: float
     propensity_to_buy: float
+    customer_value: float | None = None
+    tx_count: int | None = None
+    tx_sum: float | None = None
+    segment: str | None = None
 
 
 class Transaction(BaseModel):

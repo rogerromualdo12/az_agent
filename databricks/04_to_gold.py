@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -10,11 +11,8 @@ import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data"
-PLOTS_DIR = DATA_DIR / "plots"
-customers_path = DATA_DIR / "customers.csv"
-transactions_path = DATA_DIR / "transactions.csv"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from layers import GOLD, PLOTS_DIR, SILVER, ensure_layers
 
 N_CLUSTERS = int(os.getenv("N_CLUSTERS", "4"))
 
@@ -123,12 +121,15 @@ def plot_charts(df: pd.DataFrame) -> None:
 
 
 def main() -> None:
+    ensure_layers()
+    customers_path = SILVER / "customers.parquet"
+    transactions_path = SILVER / "transactions.parquet"
     for path in (customers_path, transactions_path):
         if not path.exists():
-            raise FileNotFoundError(f"Falta {path}. Ejecuta 01 y 02 antes de segmentar.")
+            raise FileNotFoundError(f"Falta {path}. Ejecuta 03_to_silver.py antes de gold.")
 
-    customers = pd.read_csv(customers_path)
-    transactions = pd.read_csv(transactions_path)
+    customers = pd.read_parquet(customers_path)
+    transactions = pd.read_parquet(transactions_path)
     df = build_features(customers, transactions)
 
     feature_cols = ["default_risk", "tx_count", "tx_sum", "tx_mean"]
@@ -140,23 +141,15 @@ def main() -> None:
     labels = name_segments(profile)
     df["segment"] = df["segment_id"].map(labels)
 
-    out_cols = [
-        "customer_id",
-        "name",
-        "default_risk",
-        "tx_count",
-        "tx_sum",
-        "tx_mean",
-        "customer_value",
-        "segment_id",
-        "segment",
-    ]
-    segments_path = DATA_DIR / "customer_segments.csv"
-    df[out_cols].to_csv(segments_path, index=False)
+    if "products" in df.columns:
+        df = df.drop(columns=["products"])
+
+    gold_path = GOLD / "customer_360.parquet"
+    df.to_parquet(gold_path, index=False)
     plot_charts(df)
 
     print(df.groupby("segment")[["default_risk", "tx_sum", "customer_value"]].mean().round(2).to_string())
-    print(f"\nSegmentos: {len(df)} -> {segments_path}")
+    print(f"\nGold: {len(df)} -> {gold_path}")
     print(f"Gráficos: {PLOTS_DIR}")
 
 

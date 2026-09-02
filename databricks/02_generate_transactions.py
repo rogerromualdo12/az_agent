@@ -1,13 +1,16 @@
 import os
+import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from faker import Faker
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data"
-customers_path = DATA_DIR / "customers.csv"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from layers import BRONZE, ensure_layers
+
+ensure_layers()
+customers_path = BRONZE / "customers.csv"
 
 if not customers_path.exists():
     raise FileNotFoundError("Ejecuta primero databricks/01_generate_customers.py")
@@ -32,7 +35,7 @@ transactions_df = pd.DataFrame(
     }
 )
 
-transactions_path = DATA_DIR / "transactions.csv"
+transactions_path = BRONZE / "transactions.csv"
 transactions_df.to_csv(transactions_path, index=False)
 print(transactions_df.head().to_string())
 print(f"\nTransacciones: {len(transactions_df)} -> {transactions_path}")

@@ -1,14 +1,17 @@
 import os
 import random
+import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 from faker import Faker
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data"
-DATA_DIR.mkdir(exist_ok=True)
+from layers import BRONZE, ensure_layers
+
+ensure_layers()
 
 fake = Faker()
 NUM_CUSTOMERS = int(os.getenv("NUM_CUSTOMERS", "1000"))
@@ -46,7 +49,7 @@ for i in range(NUM_CUSTOMERS):
     )
 
 customers_df = pd.DataFrame(customers)
-customers_path = DATA_DIR / "customers.csv"
+customers_path = BRONZE / "customers.csv"
 customers_df.to_csv(customers_path, index=False)
 
 life_events = []
@@ -59,7 +62,7 @@ for _, customer in customers_df.iterrows():
         life_events.append({"customer_id": customer.customer_id, "event_type": "NEW_JOB"})
 
 life_events_df = pd.DataFrame(life_events)
-life_events_path = DATA_DIR / "life_events.csv"
+life_events_path = BRONZE / "life_events.csv"
 life_events_df.to_csv(life_events_path, index=False)
 
 print(customers_df.head().to_string())

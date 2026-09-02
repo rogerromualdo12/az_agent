@@ -133,6 +133,10 @@ class Neo4jService:
             default_risk=float(node.get("default_risk") or 0),
             churn_risk=float(node.get("churn_risk") or 0),
             propensity_to_buy=float(node.get("propensity_to_buy") or 0),
+            customer_value=float(node["customer_value"]) if node.get("customer_value") is not None else None,
+            tx_count=int(node["tx_count"]) if node.get("tx_count") is not None else None,
+            tx_sum=float(node["tx_sum"]) if node.get("tx_sum") is not None else None,
+            segment=node.get("segment"),
         )
 
 

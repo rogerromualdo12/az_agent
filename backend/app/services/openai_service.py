@@ -47,6 +47,8 @@ Productos: {products}
 Riesgo de default: {customer.default_risk}
 Riesgo de churn: {customer.churn_risk}
 Propensity to buy: {customer.propensity_to_buy}
+Segmento: {customer.segment or "n/d"}
+Valor del cliente: {customer.customer_value}
 Eventos de vida: {events}
 Últimas transacciones: {[(tx.transaction_type, tx.amount) for tx in recent]}
 """

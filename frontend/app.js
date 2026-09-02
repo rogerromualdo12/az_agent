@@ -57,7 +57,9 @@ async function showCustomer(customerId) {
       <div class="metric"><p class="muted">Ingreso</p><strong>${customer.income}</strong></div>
       <div class="metric"><p class="muted">Default</p><strong>${customer.default_risk}</strong></div>
       <div class="metric"><p class="muted">Churn</p><strong>${customer.churn_risk}</strong></div>
+      <div class="metric"><p class="muted">Valor</p><strong>${customer.customer_value ?? "n/d"}</strong></div>
     </div>
+    <div class="card"><p class="muted">Segmento</p><p>${customer.segment || "Sin segmento"}</p></div>
     <div class="card"><p class="muted">Productos</p><p>${products}</p></div>
     <div class="card"><p class="muted">Life events</p><p>${events}</p></div>
     <div class="card"><p class="muted">Transacciones recientes</p><pre>${txs}</pre></div>
